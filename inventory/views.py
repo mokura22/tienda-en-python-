@@ -2,9 +2,11 @@ from django.shortcuts import render
 
 from inventory.models import Product
 from .models import Product
+
 def list_products(request):
     products = Product.objects.all()
     return render(request, 'index.html', {'products': products})
+
 def create_product(request):
     if request.method =='POST' :
         name = request.POST['name']
@@ -16,5 +18,7 @@ def create_product(request):
     else:
         return redirect('/')
 
-def delete_product(request):
-    pass        
+def delete_product(request, id):
+    product = Product.objects.get(id=id)
+    product.delete()
+    return redirect('/')
